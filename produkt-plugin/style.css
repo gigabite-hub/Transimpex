@@ -1,0 +1,9 @@
+/* Custom styles for the custom plugin */
+.custom-post-list {
+    list-style: none;
+    padding: 0;
+}
+
+.custom-post-list li {
+    margin-bottom: 10px;
+}
