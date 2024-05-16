@@ -1,9 +1,24 @@
 /* Custom styles for the custom plugin */
-.custom-post-list {
-    list-style: none;
-    padding: 0;
+.category-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
 }
 
-.custom-post-list li {
-    margin-bottom: 10px;
+.category-container a {
+    margin: 10px;
+    text-decoration: none;
+    background-color: #95cb2a;
+    padding: 5px 20px;
+    border-radius: 5px;
+    font-weight: 700;
+    color: #fff;
+    font-size: 14px;
+}
+
+.category-container a.active,
+.category-container a:hover {
+    background-color: #000;
+    transition: 0.5s ease-in-out;
 }

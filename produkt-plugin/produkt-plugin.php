@@ -5,6 +5,17 @@ Description: Produkt plugin with a shortcode to display custom post type content
 Version: 1.0
 */
 
+// Enqueue style.css file
+function custom_plugin_enqueue_styles() {
+    // Get the path to the main plugin file
+    $plugin_file = plugin_dir_url( __FILE__ );
+
+    // Enqueue the style.css file
+    wp_enqueue_style( 'custom-plugin-style', $plugin_file . 'style.css', array(), '1.0', 'all' );
+}
+add_action( 'wp_enqueue_scripts', 'custom_plugin_enqueue_styles' );
+
+
 // Add single page template for custom post type
 function custom_plugin_single_template($single) {
     global $post;
@@ -44,3 +55,33 @@ function custom_plugin_shortcode($atts) {
     return $output;
 }
 add_shortcode('custom_posts', 'custom_plugin_shortcode');
+
+function fetch_zertifikat_categories() {
+    $categories_output = '<div class="category-wrapper">';
+
+    $categories = get_terms( array(
+        'taxonomy' => 'zertifikat',
+        'hide_empty' => false,
+    ) );
+
+    if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) { 
+        $categories_output .= '<div class="category-container">';
+        $categories_output .= '<a href="JavaScript:void(0)" data-slug="all">' . esc_html__( 'All Produkte', 'transimpex' ) . '</a>';
+        foreach ( $categories as $category ) {
+            $categories_output .= '<a href="JavaScript:void(0)" data-slug="' . $category->slug  . '">' . $category->name . '</a>';
+        }
+        $categories_output .= '</div>'; 
+    } else {
+        $categories_output .= '<div class="category-container">No categories found.</div>';
+    }
+
+    $categories_output .= '</div>';
+
+    return $categories_output;
+
+}
+add_shortcode( 'zertifikat_categories', 'fetch_zertifikat_categories' );
+
+
+
+
