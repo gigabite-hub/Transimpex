@@ -182,27 +182,33 @@ function fetch_related_posts() {
     $zertifikatSlug = isset($_POST['zertifikatSlug']) ? sanitize_text_field(wp_unslash($_POST['zertifikatSlug'])) : '';
     $categorySlug = isset($_POST['categorySlug']) ? sanitize_text_field(wp_unslash($_POST['categorySlug'])) : '';
 
-    $args = array(
-        'post_type' => 'produkt',
-        'posts_per_page' => -1,
-        'tax_query' => array(
-            'relation' => 'AND',
-            array(
-                'taxonomy' => 'kategorie',
-                'field' => 'slug',
-                'terms' => $categorySlug,
-                'operator' => 'IN',
-            ),
-            array(
-                'taxonomy' => 'zertifikat',
-                'field' => 'slug',
-                'terms' => $zertifikatSlug,
-                'operator' => 'IN',
-            ),
+    $tax_query = array(
+        array(
+            'taxonomy' => 'kategorie',
+            'field' => 'slug',
+            'terms' => $categorySlug,
+            'operator' => 'IN',
         ),
     );
 
+    if ($zertifikatSlug !== 'all' && !empty($zertifikatSlug)) {
+        $tax_query[] = array(
+            'taxonomy' => 'zertifikat',
+            'field' => 'slug',
+            'terms' => $zertifikatSlug,
+            'operator' => 'IN',
+        );
+    }
+
+    $args = array(
+        'post_type' => 'produkt',
+        'posts_per_page' => -1,
+        'tax_query' => $tax_query,
+    );
+
     $posts_query = new WP_Query($args);
+
+    ob_start();
 
     ob_start();
 

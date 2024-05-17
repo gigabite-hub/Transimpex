@@ -205,3 +205,35 @@
         transform: rotate(360deg);
     }
 }
+
+
+
+
+@media screen and (max-width: 1024px) {
+    .related-post {
+        width: 50%;
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .related-post {
+        width: 50%;
+        margin-bottom: 20px;
+    }
+
+    .category-container {
+        flex-wrap: wrap;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .category-container {
+        flex-wrap: wrap;
+    }
+
+    .related-post {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
