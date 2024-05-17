@@ -8,34 +8,29 @@
         var currentURL = window.location.href;
         console.log(currentURL);
 
-        var lastScrollTop = 0;
-        var delay = 300; // Delay in milliseconds (0.3s)
 
-        $(window).on('scroll', function () {
-            var currentScrollTop = $(this).scrollTop();
-            var viewportWidth = $(window).width();
+        $('.category-container a').on('click', function (event) {
+            event.preventDefault(); // Prevent the default action of the link
+            var slug = $(this).data('slug');
+            console.log('Data Slug:', slug);
 
-            if (currentScrollTop > lastScrollTop) {
-                $('.header-bg').removeClass('scrolled header-controll');
-            } else {
-                if (viewportWidth > 768) {
-                    setTimeout(function () {
-                        $('.header-bg').addClass('scrolled');
-                    }, delay);
-                    $('.header-bg').addClass('header-controll');
-                } else if (viewportWidth <= 768 && viewportWidth > 480) {
-                    // No action needed for tablets
+            $.ajax({
+                url: TRANS.AJAX_URL,
+                type: 'POST',
+                data: {
+                    'action': 'get_certificate_related_post',
+                    'slug': slug,
+                    'nonce': TRANS.NONCE,
+                },
+                beforeSend: function () {
+                    $('.blog-wrapper').addClass('loading');
                 }
-            }
-
-            lastScrollTop = currentScrollTop;
-
-            if (currentScrollTop === 0) {
-                setTimeout(function () {
-                    $('.header-bg').removeClass('scrolled');
-                }, delay);
-                $('.header-bg').removeClass('header-controll');
-            }
+            })
+                .done(function (results) {
+                    $('.recipes-wrap').html(results);
+                    $('.blog-wrapper').removeClass('loading');
+                    $('.green-button.all-blog').hide();
+                });
         });
 
 
