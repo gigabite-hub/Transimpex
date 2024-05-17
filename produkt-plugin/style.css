@@ -206,6 +206,32 @@
     }
 }
 
+/* detail page*/
+.related-certifcates h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #a2d131;
+    font-weight: 600;
+}
+
+.custom-post-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.custom-post-list .post-categories {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.custom-post-list .post-categories img {
+    height: 50px;
+    width: auto;
+    object-fit: cover;
+    margin: 0 5px;
+}
 
 
 

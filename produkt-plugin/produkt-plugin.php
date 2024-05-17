@@ -43,33 +43,6 @@ function custom_plugin_single_template($single) {
 add_filter('single_template', 'custom_plugin_single_template');
 
 // Shortcode to display custom post type content
-function custom_plugin_shortcode($atts) {
-    $atts = shortcode_atts(array(
-        'post_type' => 'produkt',
-    ), $atts);
-
-    $args = array(
-        'post_type' => $atts['post_type'],
-        'posts_per_page' => -1,
-    );
-
-    $query = new WP_Query($args);
-
-    $output = '<ul class="custom-post-list">';
-    if ($query->have_posts()) {
-        while ($query->have_posts()) {
-            $query->the_post();
-            $output .= '<li><a href="' . get_permalink() . '">' . get_the_title() . '</a></li>';
-        }
-    }
-    $output .= '</ul>';
-
-    wp_reset_postdata();
-
-    return $output;
-}
-add_shortcode('custom_posts', 'custom_plugin_shortcode');
-
 function fetch_categories_and_related_posts($atts) {
     $atts = shortcode_atts(array(
         'category_slug' => '',
@@ -148,8 +121,14 @@ function fetch_categories_and_related_posts($atts) {
                                         </div>
                                     </div>
                                 </div>
-                               <div class="transimpex-cta">
-                                <a href="<?php echo get_permalink(); ?>" class="permalink-button">Mehr erfahren</a>
+                               <div class="transimpex-cta"><?php
+                                    $seite = get_field('seite');
+                                    if ($seite) {
+                                        foreach ($seite as $post) { ?>
+                                            <a href="<?php echo get_permalink($post->ID); ?>" class="permalink-button">Mehr erfahren</a><?php
+                                            
+                                        }
+                                    } ?>
                                </div>
                             </div>
                         </div><?php
@@ -210,8 +189,6 @@ function fetch_related_posts() {
 
     ob_start();
 
-    ob_start();
-
     if ($posts_query->have_posts()) :
         while ($posts_query->have_posts()) :
             $posts_query->the_post(); ?>
@@ -236,8 +213,6 @@ function fetch_related_posts() {
 
                                             if ($product_image) : ?>
                                                 <img src="<?php echo esc_url($product_image['url']); ?>" alt="<?php echo esc_attr($product_image['alt']); ?>"><?php
-                                            else : ?>
-                                                <img src="<?php echo plugin_dir_url( __FILE__ ) . './img/basmatireis.webp';?>" alt="<?php echo esc_attr($product_image->name); ?>"><?php
                                             endif;
                                         } ?>
                                     </div><?php
@@ -245,8 +220,15 @@ function fetch_related_posts() {
                             </div>
                         </div>
                     </div>
-                    <div class="transimpex-cta">
-                        <a href="<?php echo get_permalink(); ?>" class="permalink-button">Mehr erfahren</a>
+                    <div class="transimpex-cta"><?php
+                        $seite = get_field('seite');
+                        if ($seite) {
+                            foreach ($seite as $post) { ?>
+                                <a href="<?php echo get_permalink($post->ID); ?>" class="permalink-button">Mehr erfahren</a><?php
+                                
+                            }
+                        } ?>
+                        
                     </div>
                 </div>
             </div>
@@ -265,4 +247,64 @@ function fetch_related_posts() {
 
 add_action('wp_ajax_fetch_related_posts', 'fetch_related_posts');
 add_action('wp_ajax_nopriv_fetch_related_posts', 'fetch_related_posts');
+
+
+function get_zertifikat_shortcode($atts) {
+    // Get the current page URL
+    // $current_url = home_url(add_query_arg(array(), $wp->request));
+    $current_url = get_permalink();
+
+    // Define the query arguments
+    $args = array(
+        'post_type' => 'produkt',
+        'posts_per_page' => -1,
+    );
+    $query = new WP_Query($args);
+
+    ob_start(); ?>
+    <div class="related-certifcates">
+        <h2><?php echo esc_html__("Zertifikat durch", 'transimpex')?></h2>
+        <ul class="custom-post-list"><?php
+            if ($query->have_posts()) {
+                while ($query->have_posts()) {
+                    $query->the_post();
+                    $seite = get_field('seite');
+                    $show_post = false;
+                    if ($seite) {
+                        foreach ($seite as $post) {
+                            if (get_permalink($post->ID) == $current_url) {
+                                $show_post = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if ($show_post) {
+                        ?>
+                        <li><?php
+                            $post_categories = get_the_terms(get_the_ID(), 'zertifikat');
+                            if ($post_categories && !is_wp_error($post_categories)) { ?>
+                                <div class="post-categories"><?php
+                                    foreach ($post_categories as $post_category) {
+                                        $taxonomy_id = $post_category->taxonomy . '_' . $post_category->term_taxonomy_id;
+                                        $product_image = get_field('zertifikatsbild', $taxonomy_id);
+
+                                        if ($product_image) { ?>
+                                            <img src="<?php echo esc_url($product_image['url']); ?>" alt="<?php echo esc_attr($product_image['alt']); ?>"><?php
+                                        }
+                                    } ?>
+                                </div><?php
+                            } ?>
+                        </li><?php
+                    }
+                }
+            } ?>
+        </ul>
+    </div><?php
+
+    wp_reset_postdata();
+
+    return ob_get_clean();
+}
+add_shortcode('get_zertifikat', 'get_zertifikat_shortcode');
 
