@@ -9,28 +9,29 @@
         console.log(currentURL);
 
 
-        $('.category-container a').on('click', function (event) {
-            event.preventDefault(); // Prevent the default action of the link
-            var slug = $(this).data('slug');
-            console.log('Data Slug:', slug);
-
+        $('.category-container a').on('click', function(event) {
+            event.preventDefault();
+            var zertifikatSlug = $(this).data('slug');
+            var categorySlug = $('#category-slug').val();
+    
             $.ajax({
-                url: TRANS.AJAX_URL,
+                url: FHWS.AJAX_URL,
                 type: 'POST',
                 data: {
-                    'action': 'get_certificate_related_post',
-                    'slug': slug,
-                    'nonce': TRANS.NONCE,
+                    'action': 'fetch_related_posts',
+                    'zertifikatSlug': zertifikatSlug,
+                    'categorySlug': categorySlug,
+                    'nonce': FHWS.NONCE,
                 },
                 beforeSend: function () {
-                    $('.blog-wrapper').addClass('loading');
+                    $('.transimpex-related-pots').addClass('loading');
+                    
                 }
-            })
-                .done(function (results) {
-                    $('.recipes-wrap').html(results);
-                    $('.blog-wrapper').removeClass('loading');
-                    $('.green-button.all-blog').hide();
-                });
+            }).done(function (results) {
+                $('.transimpex-related-pots').html(results);
+                $('.transimpex-related-pots').removeClass('loading');
+
+            });
         });
 
 
