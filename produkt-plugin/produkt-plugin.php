@@ -57,7 +57,7 @@ function fetch_categories_and_related_posts($atts) {
     ));
     if (!empty($categories) && !is_wp_error($categories)) {
         $categories_output .= '<div class="category-container">';
-        $categories_output .= '<a href="JavaScript:void(0)" data-slug="all">' . esc_html__('All Produkte', 'transimpex') . '</a>';
+        $categories_output .= '<a href="JavaScript:void(0)" data-slug="all">' . esc_html__('Alle Produkte', 'transimpex') . '</a>';
         foreach ($categories as $category) {
             $categories_output .= '<a href="JavaScript:void(0)" data-slug="' . $category->slug  . '">' . $category->name . '</a>';
         }
