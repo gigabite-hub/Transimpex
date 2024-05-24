@@ -161,6 +161,8 @@ function fetch_related_posts() {
     $zertifikatSlug = isset($_POST['zertifikatSlug']) ? sanitize_text_field(wp_unslash($_POST['zertifikatSlug'])) : '';
     $categorySlug = isset($_POST['categorySlug']) ? sanitize_text_field(wp_unslash($_POST['categorySlug'])) : '';
 
+    // var_dump($zertifikatSlug);
+
     $tax_query = array(
         array(
             'taxonomy' => 'kategorie',
@@ -207,7 +209,21 @@ function fetch_related_posts() {
                                 $post_categories = get_the_terms(get_the_ID(), 'zertifikat');
                                 if ($post_categories && !is_wp_error($post_categories)) { ?>
                                     <div class="post-categories"><?php
-                                        foreach ($post_categories as $post_category) { 
+                                        foreach ($post_categories as $post_category) {
+                                            // Exclude 'Naturland' category only if $zertifikatSlug is set
+                                            if ($zertifikatSlug === "naturland-fair" && $post_category->slug === 'naturland') {
+                                                continue;
+                                            }
+
+                                            // Print the parent category if it exists
+                                            if ($post_category->parent) {
+                                                $parent_category = get_term($post_category->parent, 'zertifikat');
+                                                if ($parent_category && !is_wp_error($parent_category)) {
+                                                    echo '<span class="category-parent">' . esc_html($parent_category->name) . ' > </span>';
+                                                }
+                                            }
+
+                                            // Print the current category
                                             $taxonomy_id = $post_category->taxonomy . '_' . $post_category->term_taxonomy_id;
                                             $product_image = get_field('zertifikatsbild', $taxonomy_id);
 
@@ -225,10 +241,8 @@ function fetch_related_posts() {
                         if ($seite) {
                             foreach ($seite as $post) { ?>
                                 <a href="<?php echo get_permalink($post->ID); ?>" class="permalink-button">Mehr erfahren</a><?php
-                                
                             }
                         } ?>
-                        
                     </div>
                 </div>
             </div>
