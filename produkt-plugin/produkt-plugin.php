@@ -161,8 +161,6 @@ function fetch_related_posts() {
     $zertifikatSlug = isset($_POST['zertifikatSlug']) ? sanitize_text_field(wp_unslash($_POST['zertifikatSlug'])) : '';
     $categorySlug = isset($_POST['categorySlug']) ? sanitize_text_field(wp_unslash($_POST['categorySlug'])) : '';
 
-    // var_dump($zertifikatSlug);
-
     $tax_query = array(
         array(
             'taxonomy' => 'kategorie',
@@ -173,10 +171,17 @@ function fetch_related_posts() {
     );
 
     if ($zertifikatSlug !== 'all' && !empty($zertifikatSlug)) {
+        $terms = array($zertifikatSlug);
+
+        // If the 'naturland' filter is applied, also include 'naturland-fair'
+        if ($zertifikatSlug === 'naturland') {
+            $terms[] = 'naturland-fair';
+        }
+
         $tax_query[] = array(
             'taxonomy' => 'zertifikat',
             'field' => 'slug',
-            'terms' => $zertifikatSlug,
+            'terms' => $terms,
             'operator' => 'IN',
         );
     }
@@ -210,7 +215,7 @@ function fetch_related_posts() {
                                 if ($post_categories && !is_wp_error($post_categories)) { ?>
                                     <div class="post-categories"><?php
                                         foreach ($post_categories as $post_category) {
-                                            // Exclude 'Naturland' category only if $zertifikatSlug is set
+                                            // Skip 'naturland' category only if $zertifikatSlug is 'naturland-fair'
                                             if ($zertifikatSlug === "naturland-fair" && $post_category->slug === 'naturland') {
                                                 continue;
                                             }
@@ -261,6 +266,7 @@ function fetch_related_posts() {
 
 add_action('wp_ajax_fetch_related_posts', 'fetch_related_posts');
 add_action('wp_ajax_nopriv_fetch_related_posts', 'fetch_related_posts');
+
 
 
 function get_zertifikat_shortcode($atts) {
