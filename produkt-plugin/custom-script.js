@@ -67,14 +67,48 @@
             }
         });
 
-        // $('.transimpex-nav .open-on-hover-click').on('click', function (e) {
-        //     e.preventDefault();
-        //     var $submenu = $(this).siblings('.wp-block-navigation-submenu');
-        //     $('.transimpex-nav .wp-block-navigation-submenu').not($submenu).slideUp(); // Close other submenus
-        //     $submenu.slideToggle();
-        //     $('.transimpex-nav .open-on-hover-click').not($(this)).removeClass('expanded'); // Remove 'expanded' class from other menu items
-        //     $(this).toggleClass('expanded');
-        // });
+        const $hamburgerMenu = $('.hamburger-menu');
+        const $flyoutMenu = $('.mobile-flyout-menu');
+        const $flyoutItem = $('.flyout-item');
+
+        $hamburgerMenu.on('click', function () {
+            const isHidden = $flyoutMenu.attr('aria-hidden') === 'true';
+            $flyoutMenu.attr('aria-hidden', !isHidden);
+        });
+
+        $flyoutItem.on('click', function () {
+            $flyoutMenu.attr('aria-hidden', true);
+        });
+
+        $('.flyout-menu .menu-item-has-children > a').click(function (e) {
+            e.preventDefault();
+            var $submenu = $(this).next('.sub-menu');
+
+            if ($submenu.is(':visible')) {
+                $submenu.slideUp();
+                $(this).parent('.menu-item-has-children').removeClass('open');
+            } else {
+                $('.flyout-menu .sub-menu').slideUp();
+                $('.flyout-menu .menu-item-has-children').removeClass('open');
+                $submenu.slideDown();
+                $(this).parent('.menu-item-has-children').addClass('open');
+            }
+        });
+
+        function toggleStickyHeader() {
+            if ($(window).scrollTop() > 100) { 
+                $('.custom-header').addClass('sticky');
+            } else {
+                $('.custom-header').removeClass('sticky');
+            }
+        }
+
+        
+        toggleStickyHeader();
+
+        $(window).scroll(function () {
+            toggleStickyHeader();
+        });
 
     });
 
