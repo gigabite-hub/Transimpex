@@ -29,18 +29,60 @@ function custom_plugin_enqueue_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'custom_plugin_enqueue_styles' );
 
-
-// Add single page template for custom post type
-function custom_plugin_single_template($single) {
-    global $post;
-    if ($post->post_type == 'produkt') {
-        if (file_exists(plugin_dir_path(__FILE__) . 'single-produkt.php')) {
-            return plugin_dir_path(__FILE__) . 'single-produkt.php';
-        }
-    }
-    return $single;
+function custom_theme_setup() {
+    register_nav_menus( array(
+        'primary-menu' => __( 'Primary Menu', 'transimpex' ),
+        'footer-menu'  => __( 'Footer Menu', 'transimpex' ),
+    ) );
 }
-add_filter('single_template', 'custom_plugin_single_template');
+add_action( 'after_setup_theme', 'custom_theme_setup' );
+
+
+function custom_plugin_header() {
+    ?>
+    <header class="custom-header">
+        <div class="header-container">
+            <div class="header-item">
+                <div class="logo">
+                    <!-- Add your logo here -->
+                    <img src="<?php echo plugin_dir_url(__FILE__) . 'img/logo.png'; ?>" alt="Logo">
+                </div>
+            </div>
+            <div class="header-item">
+                <nav class="main-menu">
+                    <?php
+                    wp_nav_menu( array(
+                        'theme_location' => 'primary-menu',
+                        'container'      => false,
+                        'menu_class'     => 'menu',
+                        'fallback_cb'    => '__return_false',
+                    ) );
+                    ?>
+                </nav>
+            </div>
+            <div class="header-item">
+                <div class="header-right lang-switcher">
+                    <?php echo do_shortcode("[wpml_language_selector_widget]"); ?>
+                </div>
+
+                <div class="header-right">
+                    <div class="search-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="search-bar" style="display:none;">
+                        <?php get_search_form(); ?>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <a href="contact-page-url" class="permalink-button"><?php echo esc_html__('Kontakt', 'transimpex'); ?></a>
+                </div>
+
+            </div>
+        </div>
+    </header>
+    <?php
+}
+add_action( 'wp_body_open', 'custom_plugin_header' );
 
 // Shortcode to display custom post type content
 function fetch_categories_and_related_posts($atts) {
@@ -283,7 +325,6 @@ function get_zertifikat_shortcode($atts) {
 
     ob_start(); ?>
     <div class="related-certifcates">
-        <h2><?php echo esc_html__("Zertifikat durch", 'transimpex')?></h2>
         <ul class="custom-post-list"><?php
             if ($query->have_posts()) {
                 while ($query->have_posts()) {
@@ -304,6 +345,7 @@ function get_zertifikat_shortcode($atts) {
                         <li><?php
                             $post_categories = get_the_terms(get_the_ID(), 'zertifikat');
                             if ($post_categories && !is_wp_error($post_categories)) { ?>
+                                <h2><?php echo esc_html__("Zertifikat durch", 'transimpex')?></h2>
                                 <div class="post-categories"><?php
                                     foreach ($post_categories as $post_category) {
                                         $taxonomy_id = $post_category->taxonomy . '_' . $post_category->term_taxonomy_id;
@@ -327,4 +369,18 @@ function get_zertifikat_shortcode($atts) {
     return ob_get_clean();
 }
 add_shortcode('get_zertifikat', 'get_zertifikat_shortcode');
+
+// Add this to your theme's functions.php file
+function my_theme_widgets_init() {
+    register_sidebar( array(
+        'name'          => 'Lang Switcher',
+        'id'            => 'lang-switcher',
+        'before_widget' => '<div class="widget lang-switcher">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h2 class="widgettitle">',
+        'after_title'   => '</h2>',
+    ) );
+}
+add_action( 'widgets_init', 'my_theme_widgets_init' );
+
 
