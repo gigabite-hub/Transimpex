@@ -296,6 +296,8 @@ body .wp-block-navigation__responsive-close .wp-block-buttons-is-layout-flex,
     display: none;
 }
 
+/* Custom Header */
+
 .header-container {
     width: 1350px;
     max-width: 100%;
@@ -505,6 +507,7 @@ body .wp-block-navigation__responsive-close .wp-block-buttons-is-layout-flex,
 }
 
 
+/* End of Custom Header */
 
 
 
