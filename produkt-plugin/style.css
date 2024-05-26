@@ -324,10 +324,12 @@ body .wp-block-navigation__responsive-close .wp-block-buttons-is-layout-flex,
     display: flex;
     padding: 5px 20px;
     position: relative;
+    margin: 0px;
 }
 
 .main-menu .menu li {
     position: relative;
+    padding: 15px 0px;
 }
 
 .main-menu .menu li ul {
