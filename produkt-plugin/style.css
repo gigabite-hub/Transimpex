@@ -304,9 +304,6 @@ body .wp-block-navigation__responsive-close .wp-block-buttons-is-layout-flex,
     height: 75px;
     margin: 0 auto;
     padding: 0 20px;
-}
-
-.header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -407,7 +404,7 @@ body .wp-block-navigation__responsive-close .wp-block-buttons-is-layout-flex,
 
 }
 
-.header-item:last-child .header-right:nth-child(2) {
+.header-item:nth-child(3) .header-right:nth-child(2) {
     position: relative;
 }
 
@@ -496,17 +493,106 @@ body .wp-block-navigation__responsive-close .wp-block-buttons-is-layout-flex,
     transform: translateX(5px);
 }
 
-.header-item:last-child {
+.header-item:nth-child(3) {
     display: flex;
     margin: 0 10px;
     align-items: center;
 }
 
-.header-item:last-child .header-right {
+.header-item:nth-child(3) .header-right {
     margin: 0 10px;
 }
 
+.hamburger-container {
+    display: none;
+}
 
+
+/* Hamburge */
+
+/* .menu-container {
+    flex: 3;
+} */
+
+
+.hamburger-menu {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+}
+
+.hamburger-icon {
+    width: 30px;
+    height: 2px;
+    background-color: #333;
+    position: relative;
+}
+
+.hamburger-icon::before,
+.hamburger-icon::after {
+    content: '';
+    width: 30px;
+    height: 2px;
+    background-color: #333;
+    position: absolute;
+    left: 0;
+}
+
+.hamburger-icon::before {
+    top: -8px;
+}
+
+.hamburger-icon::after {
+    top: 8px;
+}
+
+.mobile-flyout-menu {
+    display: none;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #95cb2a;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 50px 20px;
+    box-sizing: border-box;
+}
+
+.mobile-flyout-menu[aria-hidden="false"] {
+    display: block;
+}
+
+.flyout-lang-switcher,
+.flyout-search-bar,
+.flyout-menu,
+.flyout-contact-button {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .menu-container, .header-right {
+        display: none;
+    }
+
+    .lang-switcher-container,
+    .hamburger-container {
+        display: block;
+    }
+
+    /* .header-container {
+        justify-content: space-between;
+    } */
+}
+
+/* End of Hamburge */
 /* End of Custom Header */
 
 
@@ -526,6 +612,92 @@ body .wp-block-navigation__responsive-close .wp-block-buttons-is-layout-flex,
 
     .category-container {
         flex-wrap: wrap;
+    }
+
+    .header-container {
+        width: 100%;
+        justify-content: normal;
+        padding: 0;
+    }
+
+    .header-item {
+        width: 50%;
+    }
+
+    .header-item:nth-child(2),
+    .header-right:nth-child(2),
+    .header-right:nth-child(3) {
+        display: none;
+    }
+
+    .hamburger-container {
+        display: block;
+        display: flex;
+        justify-content: flex-end;
+        padding: 0 10px;
+    }
+
+    .header-item {
+        padding: 0 10px;
+    }
+
+    .flyout-head {
+        display: flex;
+        justify-content: space-between;
+        margin: 30px 0;
+    }
+
+    .flyout-body-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flyout-menu ul {
+        list-style-type: none;
+        margin: 0;
+    }
+
+    .flyout-lang-switcher .wpml-ls-statics-shortcode_actions ul li.wpml-ls-current-language a::after {
+        top: 30px;
+        left: 9px;
+    }
+
+    .flyout-body-content .permalink-button {
+        background-color: #000;
+        color: #fff;
+    }
+
+    .flyout-body-content .search-form {
+        flex-direction: row-reverse;
+        align-items: center;
+        border: 1px solid #fff;
+        padding: 0px 10px;
+        border-radius: 100px;
+    }
+
+    .flyout-body-content .search-submit {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        width: 20px;
+        height: 20px;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='27' height='27.007' viewBox='0 0 27 27.007'%3E%3Cpath id='Icon_ionic-ios-search' data-name='Icon ionic-ios-search' fill='%23fff' d='M31.184,29.545l-7.509-7.58a10.7,10.7,0,1,0-1.624,1.645l7.46,7.53a1.156,1.156,0,0,0,1.631.042A1.163,1.163,0,0,0,31.184,29.545ZM15.265,23.7a8.45,8.45,0,1,1,5.977-2.475A8.4,8.4,0,0,1,15.265,23.7Z' transform='translate(-4.5 -4.493)'/%3E%3C/svg%3E%0A");
+        background-size: cover;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        font-size: 0;
+        margin-right: 10px;
+    }
+
+    .flyout-body-content .search-field {
+        background-color: transparent;
+        border: 0px;
+        color: #fff;
+    }
+
+    .search-field::placeholder {
+        color: transparent;
     }
 
     /* Menu */

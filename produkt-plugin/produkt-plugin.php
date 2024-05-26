@@ -42,7 +42,7 @@ function custom_plugin_header() {
     ?>
     <header class="custom-header">
         <div class="header-container">
-            <div class="header-item">
+            <div class="header-item logo-container">
                 <div class="logo">
                     <!-- Add your logo here -->
                     <img src="<?php echo plugin_dir_url(__FILE__) . 'img/logo.png'; ?>" alt="Logo">
@@ -60,7 +60,7 @@ function custom_plugin_header() {
                     ?>
                 </nav>
             </div>
-            <div class="header-item">
+            <div class="header-item lang-switcher-container">
                 <div class="header-right lang-switcher">
                     <?php echo do_shortcode("[wpml_language_selector_widget]"); ?>
                 </div>
@@ -76,9 +76,46 @@ function custom_plugin_header() {
                 <div class="header-right">
                     <a href="contact-page-url" class="permalink-button"><?php echo esc_html__('Kontakt', 'transimpex'); ?></a>
                 </div>
-
+            </div>
+            <div class="header-item hamburger-container">
+                <button class="hamburger-menu" aria-label="Toggle menu">
+                    <span class="hamburger-icon"></span>
+                </button>
             </div>
         </div>
+        <nav class="mobile-flyout-menu" aria-hidden="true">
+            <div class="flyout-head">
+                <div class="flyout-item">
+                    <img src="<?php echo plugin_dir_url(__FILE__) . 'img/flyout-logo.svg'; ?>" alt="Logo">
+                </div>
+                <div class="flyout-item">
+                    <i class="fa-solid fa-x"></i>
+                </div>
+            </div>
+            <div class="flyout-body-content">
+                <div class="flyout-lang-switcher">
+                    <?php echo do_shortcode("[wpml_language_selector_widget]"); ?>
+                </div>
+                <div class="flyout-search-bar">
+                    <?php get_search_form(); ?>
+                </div>
+                <div class="flyout-menu">
+                    <?php
+                    wp_nav_menu(array(
+                        'theme_location' => 'primary-menu',
+                        'container' => false,
+                        'menu_class' => 'menu',
+                        'fallback_cb' => '__return_false',
+                    ));
+                    ?>
+                </div>
+                <div class="flyout-contact-button">
+                    <a href="contact-page-url" class="permalink-button"><?php echo esc_html__('Kontakt', 'transimpex'); ?></a>
+                </div>
+            </div>
+        </nav>
+
+
     </header>
     <?php
 }
