@@ -771,4 +771,72 @@ body .wp-block-navigation__responsive-close .wp-block-buttons-is-layout-flex,
         width: 100%;
         margin-bottom: 20px;
     }
+
+    .main-after-hero {
+        margin-top: 100px !important;
+    }
+
+    .entry-content {
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+
+    :where(figure) {
+        margin: 0px 0px 0px !important;
+    }
+
+    .is-style-floating-icon-right {
+        top: -20%;
+        right: 33%;
+    }
+
+    .has-global-padding>.has-grey-background-color {
+        padding-right: 30px !important;
+        padding-left: 30px !important;
+    }
+
+    .is-style-floating-icon-left {
+        top: -20%;
+        left: 33%;
+    }
+
+    .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column {
+        margin-bottom: 40px;
+    }
+
+    .has-text-align-center {
+        text-align: left;
+        font-size: 30px;
+    }
+
+    .extend-bg-white {
+        padding-right: 35px !important;
+        padding-left: 35px !important;
+    }
+
+    .is-style-headline {
+        font-size: 30px;
+    }
+
+    .card-label.is-layout-constrained {
+        background-color: #fff;
+    }
+
+    .is-style-floating-icon-center {
+        top: -40px;
+    }
+
+    .is-style-plus-list {
+        padding: 0px 10px;
+    }
+
+    .swiper-easy-start h2 {
+        text-align: center;
+        font-size: 26px !important;
+    }
+
+    .swiper-easy-start a {
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
 }
