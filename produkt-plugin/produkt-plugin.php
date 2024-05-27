@@ -30,33 +30,46 @@ function custom_plugin_enqueue_styles() {
 add_action( 'wp_enqueue_scripts', 'custom_plugin_enqueue_styles' );
 
 function custom_theme_setup() {
-    register_nav_menus( array(
-        'primary-menu' => __( 'Primary Menu', 'transimpex' ),
-        'footer-menu'  => __( 'Footer Menu', 'transimpex' ),
-    ) );
+    register_nav_menus(array(
+        'primary-menu-eng' => __('Primary Menu English', 'transimpex'),
+        'primary-menu-de'  => __('Primary Menu German', 'transimpex'),
+        'footer-menu'      => __('Footer Menu', 'transimpex'),
+    ));
 }
-add_action( 'after_setup_theme', 'custom_theme_setup' );
+add_action('after_setup_theme', 'custom_theme_setup');
 
 
 function custom_plugin_header() {
+    // Detect the current language
+    $current_lang = apply_filters('wpml_current_language', NULL);
+    // var_dump($current_lang);
+    
+    // Set the theme location based on the current language
+    $theme_location = 'primary-menu';
+    if ($current_lang == 'de') {
+        $theme_location = 'primary-menu-de';
+    } elseif ($current_lang == 'en') {
+        $theme_location = 'primary-menu-eng';
+    }
     ?>
     <header class="custom-header">
         <div class="header-container">
             <div class="header-item logo-container">
                 <div class="logo">
-                    <!-- Add your logo here -->
-                    <img src="<?php echo plugin_dir_url(__FILE__) . 'img/logo.png'; ?>" alt="Logo">
+                    <a href="<?php echo esc_url(home_url()); ?>">
+                        <img src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'img/logo.png'); ?>" alt="Logo">
+                    </a>
                 </div>
             </div>
             <div class="header-item">
                 <nav class="main-menu">
                     <?php
-                    wp_nav_menu( array(
-                        'theme_location' => 'primary-menu',
+                    wp_nav_menu(array(
+                        'theme_location' => $theme_location,
                         'container'      => false,
                         'menu_class'     => 'menu',
                         'fallback_cb'    => '__return_false',
-                    ) );
+                    ));
                     ?>
                 </nav>
             </div>
@@ -64,7 +77,6 @@ function custom_plugin_header() {
                 <div class="header-right lang-switcher">
                     <?php echo do_shortcode("[wpml_language_selector_widget]"); ?>
                 </div>
-
                 <div class="header-right">
                     <div class="search-icon">
                         <i class="fas fa-search"></i>
@@ -74,7 +86,9 @@ function custom_plugin_header() {
                     </div>
                 </div>
                 <div class="header-right">
-                    <a href="contact-page-url" class="permalink-button"><?php echo esc_html__('Kontakt', 'transimpex'); ?></a>
+                    <a href="<?php echo esc_url(home_url('/produkte/reis/risotto-reis/contact-page-url')); ?>" class="permalink-button">
+                        <?php echo esc_html__('Kontakt', 'transimpex'); ?>
+                    </a>
                 </div>
             </div>
             <div class="header-item hamburger-container">
@@ -86,7 +100,7 @@ function custom_plugin_header() {
         <nav class="mobile-flyout-menu" aria-hidden="true">
             <div class="flyout-head">
                 <div class="flyout-item">
-                    <img src="<?php echo plugin_dir_url(__FILE__) . 'img/flyout-logo.svg'; ?>" alt="Logo">
+                    <img src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'img/flyout-logo.svg'); ?>" alt="Logo">
                 </div>
                 <div class="flyout-item">
                     <i class="fa-solid fa-x"></i>
@@ -102,24 +116,25 @@ function custom_plugin_header() {
                 <div class="flyout-menu">
                     <?php
                     wp_nav_menu(array(
-                        'theme_location' => 'primary-menu',
-                        'container' => false,
-                        'menu_class' => 'menu',
-                        'fallback_cb' => '__return_false',
+                        'theme_location' => $theme_location,
+                        'container'      => false,
+                        'menu_class'     => 'menu',
+                        'fallback_cb'    => '__return_false',
                     ));
                     ?>
                 </div>
                 <div class="flyout-contact-button">
-                    <a href="contact-page-url" class="permalink-button"><?php echo esc_html__('Kontakt', 'transimpex'); ?></a>
+                    <a href="<?php echo esc_url(home_url('/produkte/reis/risotto-reis/contact-page-url')); ?>" class="permalink-button">
+                        <?php echo esc_html__('Kontakt', 'transimpex'); ?>
+                    </a>
                 </div>
             </div>
         </nav>
-
-
     </header>
     <?php
 }
-add_action( 'wp_body_open', 'custom_plugin_header' );
+add_action('wp_body_open', 'custom_plugin_header');
+
 
 // Shortcode to display custom post type content
 function fetch_categories_and_related_posts($atts) {
