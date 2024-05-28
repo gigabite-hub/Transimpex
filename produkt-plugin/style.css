@@ -587,6 +587,10 @@ body .wp-block-navigation__responsive-close .wp-block-buttons-is-layout-flex,
     background-color: white;
 }
 
+header.wp-block-template-part {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .menu-container, .header-right {
         display: none;
@@ -790,9 +794,14 @@ body .wp-block-navigation__responsive-close .wp-block-buttons-is-layout-flex,
         right: 33%;
     }
 
-    .has-global-padding>.has-grey-background-color {
+    .main-parallel {
         padding-right: 30px !important;
         padding-left: 30px !important;
+    }
+
+    .has-global-padding>.has-grey-background-color {
+        padding-right: 10px !important;
+        padding-left: 10px !important;
     }
 
     .is-style-floating-icon-left {
@@ -838,5 +847,63 @@ body .wp-block-navigation__responsive-close .wp-block-buttons-is-layout-flex,
     .swiper-easy-start a {
         margin-left: 20px;
         margin-bottom: 20px;
+    }
+
+    .hero-section {
+        padding: 0px 10px !important;
+    }
+
+    .hero-section h1 {
+        font-size: 26px !important;
+    }
+
+    .headline-shadow {
+        padding: 0px 10px;
+    }
+
+    .main-parallel {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .has-white-background-color.has-background .is-style-floating-icon-left,
+    .has-white-background-color.has-background .is-style-floating-icon-right {
+        top: -10%;
+    }
+
+    .under-hero {
+        margin-top: 100px !important;
+    }
+
+    .is-layout-constrained h2,
+    .double-section p,
+    .double-section h2 {
+        padding: 0px 20px;
+    }
+
+    .swiper-easy-start {
+        padding: 0px 20px;
+    }
+
+    .wp-block-group p {
+        margin-left: 20px !important;
+    }
+
+    .wp-block-group h3 {
+        padding: 0px 20px;
+    }
+
+    .lightweight-accordion {
+        padding: 0px 20px;
+    }
+
+    .headline-shadow,
+    .wp-block-cover__inner-container h1 {
+        padding: 0px 20px !important;
+        font-size: 26px;
+    }
+
+    .wp-block-group .is-style-floating-icon-left {
+        top: -10% !important;
     }
 }
