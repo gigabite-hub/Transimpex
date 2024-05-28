@@ -591,6 +591,11 @@ header.wp-block-template-part {
     display: none;
 }
 
+
+.swiper-card {
+    z-index: 999;
+}
+
 @media (max-width: 768px) {
     .menu-container, .header-right {
         display: none;
@@ -882,7 +887,7 @@ header.wp-block-template-part {
     }
 
     .swiper-easy-start {
-        padding: 0px 20px;
+        padding: 50px 20px;
     }
 
     .wp-block-group p {
@@ -905,5 +910,9 @@ header.wp-block-template-part {
 
     .wp-block-group .is-style-floating-icon-left {
         top: -10% !important;
+    }
+
+    .is-style-floating-image {
+        margin-top: 100px !important;
     }
 }
