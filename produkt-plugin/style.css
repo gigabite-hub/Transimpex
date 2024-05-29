@@ -947,4 +947,8 @@ header.wp-block-template-part {
     .wp-swiper__wrapper .swiper-pagination.swiper-pagination-bullets.swiper-pagination-horizontal {
         bottom: 0px !important;
     }
+
+    .footer-menu {
+        padding: 0px 0px !important;
+    }
 }
