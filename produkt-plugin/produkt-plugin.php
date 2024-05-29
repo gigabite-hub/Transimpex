@@ -100,9 +100,9 @@ function custom_plugin_header() {
         <nav class="mobile-flyout-menu" aria-hidden="true">
             <div class="flyout-head">
                 <div class="flyout-item">
-                    <img src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'img/flyout-logo.svg'); ?>" alt="Logo">
+                    <a href="<?php echo esc_url(home_url()); ?>"><img src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'img/flyout-logo.svg'); ?>" alt="Logo"></a>
                 </div>
-                <div class="flyout-item">
+                <div class="flyout-item flyout-item-close">
                     <i class="fa-solid fa-x"></i>
                 </div>
             </div>
@@ -120,6 +120,7 @@ function custom_plugin_header() {
                         'container'      => false,
                         'menu_class'     => 'menu',
                         'fallback_cb'    => '__return_false',
+                        'walker'         => new Custom_Walker_Nav_Menu(), // Add a custom walker to include arrow buttons
                     ));
                     ?>
                 </div>
@@ -436,3 +437,57 @@ function my_theme_widgets_init() {
 add_action( 'widgets_init', 'my_theme_widgets_init' );
 
 
+// functions.php
+class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
+    function start_lvl( &$output, $depth = 0, $args = null ) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "\n$indent<ul class=\"sub-menu\">\n";
+    }
+
+    function end_lvl( &$output, $depth = 0, $args = null ) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "$indent</ul>\n";
+    }
+
+    function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
+        $indent = ( $depth ) ? str_repeat("\t", $depth) : '';
+
+        $classes = empty( $item->classes ) ? array() : (array) $item->classes;
+        $classes[] = 'menu-item-' . $item->ID;
+
+        $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter( $classes ), $item, $args ));
+        $class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
+
+        $id = apply_filters('nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args);
+        $id = $id ? ' id="' . esc_attr($id) . '"' : '';
+
+        $output .= $indent . '<li' . $id . $class_names .'>';
+
+        $atts = array();
+        $atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
+        $atts['target'] = ! empty( $item->target )     ? $item->target     : '';
+        $atts['rel']    = ! empty( $item->xfn )        ? $item->xfn        : '';
+        $atts['href']   = ! empty( $item->url )        ? $item->url        : '';
+
+        $atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args);
+
+        $attributes = '';
+        foreach ( $atts as $attr => $value ) {
+            if ( ! empty( $value ) ) {
+                $value = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
+                $attributes .= ' ' . $attr . '="' . $value . '"';
+            }
+        }
+
+        $item_output = $args->before;
+        $item_output .= '<a'. $attributes .'>';
+        $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
+        $item_output .= '</a>';
+        if (in_array('menu-item-has-children', $classes)) {
+            $item_output .= '<button class="submenu-toggle" aria-expanded="false"><i class="fa-solid fa-angle-down"></i></button>';
+        }
+        $item_output .= $args->after;
+
+        $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+    }
+}

@@ -67,22 +67,26 @@
             }
         });
 
+        // JavaScript
         const $hamburgerMenu = $('.hamburger-menu');
         const $flyoutMenu = $('.mobile-flyout-menu');
-        const $flyoutItem = $('.flyout-item');
+        const $flyoutItem = $('.flyout-item-close');
 
+        // Toggle flyout menu visibility
         $hamburgerMenu.on('click', function () {
             const isHidden = $flyoutMenu.attr('aria-hidden') === 'true';
             $flyoutMenu.attr('aria-hidden', !isHidden);
         });
 
+        // Collapse flyout menu on item click
         $flyoutItem.on('click', function () {
             $flyoutMenu.attr('aria-hidden', true);
         });
 
-        $('.flyout-menu .menu-item-has-children > a').click(function (e) {
+        // Toggle submenus on arrow click
+        $('.flyout-menu .menu-item-has-children > .submenu-toggle').click(function (e) {
             e.preventDefault();
-            var $submenu = $(this).next('.sub-menu');
+            var $submenu = $(this).siblings('.sub-menu');
 
             if ($submenu.is(':visible')) {
                 $submenu.slideUp();
@@ -95,15 +99,16 @@
             }
         });
 
+
         function toggleStickyHeader() {
-            if ($(window).scrollTop() > 100) { 
+            if ($(window).scrollTop() > 100) {
                 $('.custom-header').addClass('sticky');
             } else {
                 $('.custom-header').removeClass('sticky');
             }
         }
 
-        
+
         toggleStickyHeader();
 
         $(window).scroll(function () {
