@@ -596,6 +596,10 @@ header.wp-block-template-part {
     z-index: 999;
 }
 
+.footer-menu a {
+    text-decoration: none;
+}
+
 @media (max-width: 768px) {
     .menu-container, .header-right {
         display: none;
@@ -950,5 +954,9 @@ header.wp-block-template-part {
 
     .footer-menu {
         padding: 0px 0px !important;
+    }
+
+    .swiper-pag .swiper-pagination {
+        margin-bottom: -50px;
     }
 }
