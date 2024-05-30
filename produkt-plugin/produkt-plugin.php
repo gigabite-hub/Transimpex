@@ -86,7 +86,7 @@ function custom_plugin_header() {
                     </div>
                 </div>
                 <div class="header-right">
-                    <a href="<?php echo esc_url(home_url('/produkte/reis/risotto-reis/contact-page-url')); ?>" class="permalink-button">
+                    <a href="<?php echo esc_url(home_url('/kontakt/')); ?>" class="permalink-button">
                         <?php echo esc_html__('Kontakt', 'transimpex'); ?>
                     </a>
                 </div>
@@ -125,7 +125,7 @@ function custom_plugin_header() {
                     ?>
                 </div>
                 <div class="flyout-contact-button">
-                    <a href="<?php echo esc_url(home_url('/produkte/reis/risotto-reis/contact-page-url')); ?>" class="permalink-button">
+                    <a href="<?php echo esc_url(home_url('/kontakt/')); ?>" class="permalink-button">
                         <?php echo esc_html__('Kontakt', 'transimpex'); ?>
                     </a>
                 </div>
